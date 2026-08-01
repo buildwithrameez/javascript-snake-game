@@ -11,19 +11,19 @@ let snake = [{x:10, y:10}];
 let food = generateFood();
 let direction = 'right';
 let gameInterval;
-let gameSpeedDelaye = 200;
+let gamespeedDelay = 200;
 let gameStarted = false;
 
 
 // Functions to draw map, snake and food
 function draw() {
     board.innerHTML = '';
-    drawsnake();
+    drawSnake();
     drawFood();
 };
 
 // draw snake
-function drawsnake () {
+function drawSnake () {
     snake.forEach((segment) => {
         const snakeElement = createGameElement('div','snake');
         setPosition(snakeElement,segment);
@@ -61,7 +61,7 @@ function drawFood () {
 function generateFood() {
     const x = Math.floor(Math.random() * gridSize) + 1;
     const y = Math.floor(Math.random() * gridSize) + 1;
-    return {x,y};
+    return { x, y};
 };
 
 // move snake
@@ -88,13 +88,13 @@ function move() {
    snake.unshift(head);
    
 //    snake.pop();
-if (head.x == food.x && head.y == head.food) {
+if (head.x == food.x && head.y == food.y) {
         food = generateFood();
-        clearInterval(); // clear past interval
+        clearInterval(gameInterval); // clear past interval
         gameInterval = setInterval(() => {
             move();
             draw();
-        },gameSpeedDelaye);
+        },gamespeedDelay);
     }
     else {
         snake.pop();
@@ -118,7 +118,7 @@ function startGame() {
         move();
         // checkCollision();
         draw();
-    },gameSpeedDelaye);
+    },gamespeedDelay);
 };
 
 //keypress event listener
