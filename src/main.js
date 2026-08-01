@@ -66,7 +66,7 @@ function generateFood() {
 
 // move snake
 function move() {
-    const head = {...snake[0] };
+    const head = {...snake[0]};
     switch (direction) {
         case 'up':
            head.y--; 
@@ -80,7 +80,7 @@ function move() {
            head.x++; 
             break;  
             
-        case 'letf':
+        case 'left':
            head.x--; 
             break;    
     }
@@ -91,7 +91,7 @@ function move() {
 if (head.x == food.x && head.y == head.food) {
         food = generateFood();
         clearInterval(); // clear past interval
-        gameInterval(() => {
+        gameInterval = setInterval(() => {
             move();
             draw();
         },gameSpeedDelaye);
@@ -99,6 +99,8 @@ if (head.x == food.x && head.y == head.food) {
     else {
         snake.pop();
     }
+    console.log(head);
+    
 };
 
 //moving test
@@ -107,14 +109,48 @@ if (head.x == food.x && head.y == head.food) {
 //     draw();
 // },200);
 
-// start function
+// start game function
 function startGame() {
     gameStarted = true; // keep track of running game
     instructionText.style.display = 'none';
     logo.style.display = 'none';
-    gameInterval(() =>{
+    gameInterval = setInterval(() =>{
         move();
         // checkCollision();
         draw();
     },gameSpeedDelaye);
 };
+
+//keypress event listener
+function handlePressKey(event){
+    if (
+        (!gameStarted && event.code == 'Space') || 
+        (!gameStarted && event.key == ' ')
+    ) {
+        startGame();
+    }
+    else {
+        switch (event.key) {
+            case 'ArrowUp' :
+                direction = 'up';
+                break;
+            
+            case 'ArrowDown' :
+                direction = 'down';
+                break;
+                
+            case 'ArrowRight' :
+                direction = 'right';
+                break;
+                
+            case 'ArrowLeft' :
+                direction = 'left';
+                break;    
+        }
+
+    };
+
+};
+
+document.addEventListener('keydown', handlePressKey);
+
