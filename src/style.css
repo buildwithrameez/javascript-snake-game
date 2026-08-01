@@ -90,4 +90,5 @@ body,
 #logo {
     position: absolute;
     height: 200px;
+    display: none;
 }

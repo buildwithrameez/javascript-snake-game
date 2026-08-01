@@ -5,6 +5,10 @@ const board = document.getElementById('game-board');
 let gridSize = 20;
 let snake = [{x:10, y:10}];
 let food = generateFood();
+let direction = 'right';
+let gameInterval;
+let gameSpeedDelaye = 200;
+
 
 // Functions to draw map, snake and food
 function draw() {
@@ -48,8 +52,52 @@ function drawFood () {
 
 };
 
+// generate Food
 function generateFood() {
     const x = Math.floor(Math.random() * gridSize) + 1;
     const y = Math.floor(Math.random() * gridSize) + 1;
     return {x,y};
 };
+
+// move snake
+function move() {
+    const head = {...snake[0] };
+    switch (direction) {
+        case 'up':
+           head.y--; 
+            break;
+    
+        case 'down':
+           head.y++; 
+            break;
+
+        case 'right':
+           head.x++; 
+            break;  
+            
+        case 'letf':
+           head.x--; 
+            break;    
+    }
+
+   snake.unshift(head);
+   
+//    snake.pop();
+if (head.x == food.x && head.y == head.food) {
+        food = generateFood();
+        clearInterval(); // clear past interval
+        gameInterval(() => {
+            move();
+            draw();
+        },gameSpeedDelaye);
+    }
+    else {
+        snake.pop();
+    }
+};
+
+//moving test
+// setInterval(() => {
+//     move();
+//     draw();
+// },200);
