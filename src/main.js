@@ -90,6 +90,7 @@ function move() {
 //    snake.pop();
 if (head.x == food.x && head.y == food.y) {
         food = generateFood();
+        increaseSpeed();
         clearInterval(gameInterval); // clear past interval
         gameInterval = setInterval(() => {
             move();
@@ -99,8 +100,6 @@ if (head.x == food.x && head.y == food.y) {
     else {
         snake.pop();
     }
-    console.log(head);
-    
 };
 
 //moving test
@@ -154,3 +153,10 @@ function handlePressKey(event){
 
 document.addEventListener('keydown', handlePressKey);
 
+// function to increate the speed of snake 
+function increaseSpeed () {
+    if (gamespeedDelay > 90) {
+        gamespeedDelay -= 5;
+    }
+};
+ 
