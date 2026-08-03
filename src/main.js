@@ -2,6 +2,7 @@
 const board = document.getElementById('game-board');
 const instructionText = document.getElementById('instruction-text');
 const logo = document.getElementById('logo');
+const score = document.getElementById('score');
 
 
 
@@ -20,6 +21,7 @@ function draw() {
     board.innerHTML = '';
     drawSnake();
     drawFood();
+    updateScore();
 };
 
 // draw snake
@@ -94,6 +96,7 @@ if (head.x == food.x && head.y == food.y) {
         clearInterval(gameInterval); // clear past interval
         gameInterval = setInterval(() => {
             move();
+            checkCollision();
             draw();
         },gamespeedDelay);
     }
@@ -115,7 +118,7 @@ function startGame() {
     logo.style.display = 'none';
     gameInterval = setInterval(() =>{
         move();
-        // checkCollision();
+        checkCollision();
         draw();
     },gamespeedDelay);
 };
@@ -155,8 +158,49 @@ document.addEventListener('keydown', handlePressKey);
 
 // function to increate the speed of snake 
 function increaseSpeed () {
-    if (gamespeedDelay > 90) {
+    if (gamespeedDelay > 150) {
         gamespeedDelay -= 5;
     }
+    else if (gamespeedDelay > 100) {
+        gamespeedDelay -= 3;
+    }
+    else if (gamespeedDelay > 80) {
+        gamespeedDelay -= 2;
+    }
+    else if (gamespeedDelay > 50) {
+        gamespeedDelay -= 1;
+    }
 };
- 
+
+// function to check if the snake touch the wall or himself
+function checkCollision () {
+    const head = snake[0];
+
+    if (head.x < 1 || head.x > gridSize || head.y < 1 || head.y > gridSize) {
+        resetGame();
+    }
+
+    for (let i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+            resetGame();
+        }  
+    }
+};
+
+// function to reset the game
+function resetGame () {
+    updatehighScore();
+    // stopGame();
+    snake = [{x : 10, y : 10}];
+    food = generateFood();
+    direction = 'right';
+    gamespeedDelay = 200;
+    updateScore();
+};
+
+// function to update scores
+function updateScore () {
+    const currentScore = snake.length - 1;
+    score.textContent = currentScore.toString().padStart(3,'0');
+};
+
