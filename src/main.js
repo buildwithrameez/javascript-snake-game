@@ -25,6 +25,7 @@ function draw() {
     drawSnake();
     drawFood();
     updateScore();
+    console.log("draw function run");
 };
 
 // draw snake
@@ -94,7 +95,7 @@ function move() {
    snake.unshift(head);
    
 //    snake.pop();
-if (head.x == food.x && head.y == food.y) {
+if (head.x === food.x && head.y === food.y) {
         food = generateFood();
         increaseSpeed();
         clearInterval(gameInterval); // clear past interval
@@ -149,9 +150,10 @@ function handlePressKey(event){
                 direction = 'right';
                 break;
                 
-            case 'ArrowLeft' :
-                direction = 'left';
-                break;    
+            case 'ArrowLeft':
+                if (direction !== 'right')
+                    direction = 'left';
+                break;   
         }
 
     };
@@ -182,11 +184,13 @@ function checkCollision () {
 
     if (head.x < 1 || head.x > gridSize || head.y < 1 || head.y > gridSize) {
         resetGame();
+        return;
     }
 
     for (let i = 1; i < snake.length; i++) {
         if (head.x === snake[i].x && head.y === snake[i].y) {
             resetGame();
+            return;
         }  
     }
 };
@@ -210,8 +214,9 @@ function updateScore () {
 
 // function to stop game
 function stopGame() {
-    setInterval(gameInterval);
-    startGame = false; 
+    clearInterval(gameInterval);
+    gameStarted = false; 
+
     instructionText.style.display = 'block';
     logo.style.display = 'block';
 };
