@@ -25,7 +25,6 @@ function draw() {
     drawSnake();
     drawFood();
     updateScore();
-    console.log("draw function run");
 };
 
 // draw snake
