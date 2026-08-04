@@ -207,7 +207,7 @@ function resetGame () {
 
 // function to update scores
 function updateScore () {
-    const currentScore = snake.length - 1;
+    const currentScore = (snake.length -1) * 5;
     score.textContent = currentScore.toString().padStart(3,'0');
 };
 
@@ -222,7 +222,7 @@ function stopGame() {
 
 // function to add high score
 function  updatehighScore() {
-    const currentScore = snake.length -1;
+    const currentScore = (snake.length -1) * 5;
     if (currentScore > highScores) {
         highScores = currentScore;
         h_score.textContent = highScores.toString().padStart(3,'0'); 
